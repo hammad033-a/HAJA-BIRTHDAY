@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Birthday Surprise! 🎉</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Initial QR Code Section -->
+        <div id="qr-section" class="section active">
+            <div class="qr-container">
+                <h1>🎂 Birthday Surprise! 🎂</h1>
+                <p>Scan this QR code to reveal your special surprise!</p>
+                <div id="qr-code"></div>
+                <button id="generate-qr" class="btn">Generate New QR Code</button>
+                <button id="test-surprise" class="btn" style="margin-left: 10px; background: linear-gradient(45deg, #ff6b6b, #ff8e8e);">Test Surprise</button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="script.js"></script>
+    <!-- Fallback QR code library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+</body>
+</html>
