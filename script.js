@@ -48,13 +48,35 @@ document.addEventListener('DOMContentLoaded', function() {
 function generateQRCode() {
     // Clear previous QR code
     qrCodeDiv.innerHTML = '';
-    
-    // Build surprise URL always (no localhost warning)
-    let currentURL = window.location.origin + window.location.pathname;
-    const baseURL = currentURL.endsWith('index.html') ? currentURL.replace('index.html', '') : currentURL;
-    const surpriseURL = baseURL + 'surprise.html';
+
+    // Use GitHub Pages URL for QR code (works on mobile)
+    const githubPagesURL = 'https://hammad033-a.github.io/HAJA-BIRTHDAY/surprise.html';
+
+    // Check if we're on localhost and use GitHub Pages URL for QR code
+    let surpriseURL;
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        surpriseURL = githubPagesURL;
+        console.log('Using GitHub Pages URL for QR code (mobile compatibility):', surpriseURL);
+    } else {
+        // If already on GitHub Pages, use current URL
+        let currentURL = window.location.origin + window.location.pathname;
+        const baseURL = currentURL.endsWith('index.html') ? currentURL.replace('index.html', '') : currentURL;
+        surpriseURL = baseURL + 'surprise.html';
+        console.log('Using current URL for QR code:', surpriseURL);
+    }
     
     console.log('Attempting to generate QR code for:', surpriseURL);
+
+    // Add URL display for user reference
+    const urlDisplay = document.createElement('p');
+    urlDisplay.style.cssText = 'font-size: 0.8rem; color: #666; margin-top: 1rem; word-break: break-all;';
+    urlDisplay.textContent = `QR Code URL: ${surpriseURL}`;
+
+    // Remove any existing URL display
+    const existingDisplay = qrCodeDiv.parentNode.querySelector('.url-display');
+    if (existingDisplay) {
+        existingDisplay.remove();
+    }
     
     // Try multiple QR code generation methods
     try {
@@ -75,6 +97,10 @@ function generateQRCode() {
                 } else {
                     currentQRCode = surpriseURL;
                     console.log('QR Code generated successfully with QRCode.toCanvas:', surpriseURL);
+
+                    // Add URL display
+                    urlDisplay.className = 'url-display';
+                    qrCodeDiv.parentNode.appendChild(urlDisplay);
                 }
             });
         } else {
@@ -100,6 +126,13 @@ function generateQRCodeFallback(url) {
             qrCodeDiv.innerHTML = qrImage;
             currentQRCode = url;
             console.log('QR Code generated successfully with fallback:', url);
+
+            // Add URL display for fallback method
+            const urlDisplay = document.createElement('p');
+            urlDisplay.style.cssText = 'font-size: 0.8rem; color: #666; margin-top: 1rem; word-break: break-all;';
+            urlDisplay.textContent = `QR Code URL: ${url}`;
+            urlDisplay.className = 'url-display';
+            qrCodeDiv.parentNode.appendChild(urlDisplay);
         } else {
             // Method 3: Create a simple text-based QR code placeholder
             console.log('No QR code library available, creating placeholder');
